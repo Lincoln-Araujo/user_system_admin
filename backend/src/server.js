@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ✅ Ativa CORS para aceitar requisições de outros domínios (como o frontend)
-app.use(cors());
+app.use(cors({ exposedHeaders: ['Content-Range'] }));
 
 if (process.env.NODE_ENV !== 'test') {
   connectDB();

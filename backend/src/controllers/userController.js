@@ -3,17 +3,15 @@ const User = require('../models/userModel');
 exports.listAllUsers = async (req, res) => {
     try {
         const users = await User.find({});
-        
         const usersWithId = users.map(user => ({
-            id: user._id,
+            id: user._id.toString(),
             name: user.name,
-            email: user.email,
-            password: user.password,
+            email: user.email
         }));
 
         res.set('Content-Range', `users 0-${users.length - 1}/${users.length}`);
         res.set('Access-Control-Expose-Headers', 'Content-Range');
-        res.status(200).json(usersWithId);
+        res.status(200).json({ data: usersWithId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
