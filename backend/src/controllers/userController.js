@@ -11,12 +11,13 @@ exports.listAllUsers = async (req, res) => {
 
         res.set('Content-Range', `users 0-${users.length - 1}/${users.length}`);
         res.set('Access-Control-Expose-Headers', 'Content-Range');
-        res.status(200).json({ data: usersWithId });
+        
+        // 🚨 React Admin + ra-data-simple-rest espera um array direto aqui!
+        res.status(200).json(usersWithId);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 exports.createUser = async (req, res) => {
     try {
