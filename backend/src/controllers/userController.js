@@ -25,15 +25,13 @@ exports.createUser = async (req, res) => {
         const newUser = new User(req.body);
         const savedUser = await newUser.save();
 
-        // Converte para objeto simples
-        const userObject = savedUser.toObject();
-
-        // Adiciona o campo 'id'
-        userObject.id = userObject._id;
-        delete userObject._id; // opcional, se não quiser enviar _id duplicado
-        delete userObject.__v; // remove versão do mongoose
-
-        res.status(201).json({ data: userObject });
+        res.status(201).json({
+            data: {
+                id: savedUser._id.toString(), 
+                name: savedUser.name,
+                email: savedUser.email
+            }
+        });
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({ error: 'E-mail já está em uso.' });
@@ -51,17 +49,17 @@ exports.getUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const userObject = user.toObject();
-        userObject.id = userObject._id;
-        delete userObject._id;
-        delete userObject.__v;
-
-        res.status(200).json({ data: userObject });
+        res.status(200).json({
+            data: {
+                id: user._id.toString(),
+                name: user.name,
+                email: user.email
+            }
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 
 exports.updateUser = async (req, res) => {

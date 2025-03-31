@@ -1,18 +1,24 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput, required, email, minLength } from 'react-admin';
+import { Create, SimpleForm, TextInput, required, email, minLength, useNotify, useRedirect } from 'react-admin';
 
-const validateName = required('O nome é obrigatório');
-const validateEmail = [required('O e-mail é obrigatório'), email('E-mail inválido')];
-const validatePassword = [required('A senha é obrigatória'), minLength(6, 'A senha deve ter no mínimo 6 caracteres')];
+const UserCreate = (props) => {
+  const notify = useNotify();
+  const redirect = useRedirect();
 
-const UserCreate = (props) => (
-  <Create {...props}>
-    <SimpleForm>
-      <TextInput source="name" label="Nome" validate={validateName} />
-      <TextInput source="email" label="E-mail" validate={validateEmail} />
-      <TextInput source="password" label="Senha" type="password" validate={validatePassword} />
-    </SimpleForm>
-  </Create>
-);
+  const onSuccess = () => {
+    notify('Usuário criado com sucesso');
+    redirect('/users'); 
+  };
+
+  return (
+    <Create {...props} mutationOptions={{ onSuccess }}>
+      <SimpleForm>
+        <TextInput source="name" label="Nome" validate={required()} />
+        <TextInput source="email" label="E-mail" validate={[required(), email()]} />
+        <TextInput source="password" label="Senha" type="password" validate={[required(), minLength(6)]} />
+      </SimpleForm>
+    </Create>
+  );
+};
 
 export default UserCreate;
