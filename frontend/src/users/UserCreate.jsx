@@ -12,7 +12,7 @@ const UserCreate = (props) => {
 
   return (
     <Create {...props} mutationOptions={{ onSuccess }}>
-      <SimpleForm>
+      <SimpleForm redirect="list">
         <TextInput source="name" label="Nome" validate={required()} />
         <TextInput source="email" label="E-mail" validate={[required(), email()]} />
         <TextInput source="password" label="Senha" type="password" validate={[required(), minLength(6)]} />
