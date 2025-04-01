@@ -24,12 +24,11 @@ exports.createUser = async (req, res) => {
         const newUser = new User(req.body);
         const savedUser = await newUser.save();
 
-        res.status(201).json({
-            data: {
-                id: savedUser._id.toString(), 
-                name: savedUser.name,
-                email: savedUser.email
-            }
+        // Respondendo diretamente com os dados (sem "data")
+        res.status(200).json({
+            id: savedUser._id.toString(), 
+            name: savedUser.name,
+            email: savedUser.email
         });
     } catch (error) {
         if (error.code === 11000) {
@@ -39,6 +38,8 @@ exports.createUser = async (req, res) => {
         }
     }
 };
+
+
 
 
 exports.getUser = async (req, res) => {
@@ -59,6 +60,7 @@ exports.getUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 

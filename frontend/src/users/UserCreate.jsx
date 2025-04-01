@@ -1,3 +1,4 @@
+// UserCreate.jsx
 import React from 'react';
 import { Create, SimpleForm, TextInput, required, email, minLength, useNotify, useRedirect } from 'react-admin';
 
@@ -7,12 +8,12 @@ const UserCreate = (props) => {
 
   const onSuccess = () => {
     notify('Usuário criado com sucesso');
-    redirect('/users'); 
+    redirect('/users'); // Só esse redirecionamento é suficiente
   };
 
   return (
     <Create {...props} mutationOptions={{ onSuccess }}>
-      <SimpleForm redirect="list">
+      <SimpleForm>
         <TextInput source="name" label="Nome" validate={required()} />
         <TextInput source="email" label="E-mail" validate={[required(), email()]} />
         <TextInput source="password" label="Senha" type="password" validate={[required(), minLength(6)]} />
