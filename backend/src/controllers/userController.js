@@ -43,6 +43,8 @@ exports.createUser = async (req, res) => {
 
 
 exports.getUser = async (req, res) => {
+    console.log("🔍 Buscando usuário com ID:", req.params.id); // <-- Aqui
+
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
