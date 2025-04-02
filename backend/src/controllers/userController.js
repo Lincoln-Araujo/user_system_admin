@@ -43,25 +43,26 @@ exports.createUser = async (req, res) => {
 
 
 exports.getUser = async (req, res) => {
-    console.log("🔍 Buscando usuário com ID:", req.params.id); // <-- Aqui
-
+    console.log("🔍 Buscando usuário com ID:", req.params.id);
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
+            console.log("❌ Usuário não encontrado.");
             return res.status(404).json({ message: 'User not found' });
         }
 
+        console.log("✅ Usuário encontrado:", user);
         res.status(200).json({
-            data: {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email
-            }
+            id: user.id.toString(), 
+            name: user.name,
+            email: user.email
         });
     } catch (error) {
+        console.error("🚨 Erro ao buscar usuário:", error);
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 
@@ -78,11 +79,9 @@ exports.updateUser = async (req, res) => {
         }
 
         res.status(200).json({
-            data: {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email
-            }
+            id: user.id.toString(), 
+            name: user.name,
+            email: user.email
         });
     } catch (error) {
         res.status(400).json({ error: error.message });
